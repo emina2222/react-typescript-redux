@@ -1,0 +1,29 @@
+.title {
+    color: #100b55;
+    font-weight: bold;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* horizontal center */
+    justify-content: center; /* vertical center, if you set height */
+    background-color: #e4dfad;
+    padding: 20px;
+}
+.profile-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; /* optional: ensures image fills area without stretching */
+    border-radius: 50%; /* optional: makes it round */
+}
+.icon-button {
+    padding: 20px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid #100b55;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
