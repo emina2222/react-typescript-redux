@@ -9,8 +9,9 @@ const Home = () => {
     }
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">Welcome!</h1>
+        <div className="card">
+            <h1 className="title">Welcome!</h1>
+            <p>Are you searching for the best movies? You're at the right spot!</p>
             <Button onClick={ redirect }>Go to Profile</Button>
         </div>
     );

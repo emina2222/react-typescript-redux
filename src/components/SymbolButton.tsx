@@ -1,4 +1,4 @@
-import "./ProfileStyle.css"
+import "../styles/ProfileStyle.css"
 
 interface ButtonProps {
     imageName: string;

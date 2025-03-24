@@ -1,5 +1,5 @@
 import {DummyUser} from "@/components/DummyUser.ts";
-import "./ProfileStyle.css"
+import "../styles/ProfileStyle.css"
 import SymbolButton from "@/components/SymbolButton.tsx";
 
 interface ProfileCardProps {
