@@ -1,5 +1,9 @@
 import {Button} from "@/components/Button.tsx";
 import {useFavorites} from "@/context/FavoritesContext.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {addToWatchlist, removeFromWatchlist} from "@/redux/watchlistSlice.ts";
+import {isOnWatchlist} from "@/redux/watchlistSelectors.ts";
+import {RootState} from "../redux/store";
 
 interface MovieProps {
     movie: Movie
@@ -8,6 +12,13 @@ interface MovieProps {
 const SingleMovie = ({ movie }: MovieProps) => {
     const { toggleFavorites, isFavorite } = useFavorites();
     const favorite = isFavorite(movie.id);
+
+    const dispatch = useDispatch();
+    const onWatchlist = useSelector((state: RootState) => isOnWatchlist(state, movie.id));
+
+    const handleAddToWatchlist = (movie: Movie) => {
+        onWatchlist ? dispatch(removeFromWatchlist(movie.id)) : dispatch(addToWatchlist(movie));
+    }
 
     return (
         <div className="bg-white rounded shadow p-2">
@@ -20,6 +31,11 @@ const SingleMovie = ({ movie }: MovieProps) => {
                 variant={ favorite ? "secondary" : "destructive"}
                 onClick={ () => toggleFavorites(movie.id) }>
                 { favorite ? "Remove from Favorites" : "Add to Favorites" }
+            </Button>
+            <Button
+                variant={ onWatchlist ? "secondary" : "destructive" }
+                onClick={ () => handleAddToWatchlist(movie) }>
+                { onWatchlist ? "Remove from Watchlist" : "Add to Watchlist" }
             </Button>
             <p>{movie.vote_average}</p>
             <p className="text-sm text-gray-600">{movie.overview.slice(0, 100)}...</p>

@@ -14,6 +14,10 @@ const ProfileCard = ({user}: ProfileCardProps): JSX.Element => {
         navigate("/favorites");
     }
 
+    const redirectToWatchlist = () => {
+        navigate("/watchlist");
+    }
+
     return (
         <div className="card">
             <img className="profile-image" src="src/assets/me.png" alt="Profile picture"/>
@@ -21,7 +25,7 @@ const ProfileCard = ({user}: ProfileCardProps): JSX.Element => {
             <p>Email: {user.email}</p>
             <p>Phone: {user.telephone}</p>
             <SymbolButton imageName="heart" onClick={() => redirectToFavorites()}/>
-            <SymbolButton imageName="music-and-multimedia" onClick={() => redirectToFavorites()}/>
+            <SymbolButton imageName="music-and-multimedia" onClick={() => redirectToWatchlist()}/>
         </div>
     );
 }

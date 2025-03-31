@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Profile from "@/pages/Profile.tsx";
 import Movies from "@/pages/Movies.tsx";
 import FavoritesPage from "@/components/FavoritesPage.tsx";
+import WatchlistPage from "@/components/WatchlistPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> }, //index:true when hit / it's got to this page
       { path: "profile", element: <Profile /> },
       { path: "movies", element: <Movies /> },
-      { path: "favorites", element: <FavoritesPage />}
+      { path: "favorites", element: <FavoritesPage /> },
+      { path: "watchlist", element: <WatchlistPage /> }
     ],
   },
 ]);
