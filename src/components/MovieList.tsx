@@ -1,15 +1,18 @@
 import SingleMovie from "@/components/SingleMovie.tsx";
 import {useEffect, useMemo, useState} from "react";
 import CheckboxComponent from "@/components/CheckboxComponent.tsx";
+import Modal from "@/components/Modal.tsx";
 
 interface MovieListProps {
     movies: Movie[]
 }
 
+const MOVIES_PER_PAGE = 4
+
 const MoviesList = ({movies = []}: MovieListProps) => {
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const MOVIES_PER_PAGE = 4
+    const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
     const ratings = [4, 5, 6, 7]
     const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
@@ -59,9 +62,10 @@ const MoviesList = ({movies = []}: MovieListProps) => {
             <p className="mb-4 p-2 border rounded w-full">Pick rating:</p>
             <CheckboxComponent values={ratings} onChange={handleRatingChange}/>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {currentMovies.length > 0 ? currentMovies.map((movie) => (
-                        <SingleMovie key={movie.id} movie={movie}/>
+                        <SingleMovie key={movie.id} movie={movie} onClick={() => setSelectedMovie(movie)}/>
                     ))
                     :
                     (
@@ -70,6 +74,7 @@ const MoviesList = ({movies = []}: MovieListProps) => {
                         </p>
                     )}
             </div>
+
             {filteredMovies.length > 0 ?
             <div className="flex justify-center items-center gap-4 mt-6">
                 <button onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
@@ -92,6 +97,15 @@ const MoviesList = ({movies = []}: MovieListProps) => {
                 </button>
             </div>
             : ""}
+
+            <Modal isOpen={!!selectedMovie} onClose={() => setSelectedMovie(null)}>
+                {selectedMovie &&
+                    <div>
+                        <h2 className="text-xl font-bold mb-2">{selectedMovie.title}</h2>
+                        <p>{selectedMovie.overview}</p>
+                    </div>
+                }
+            </Modal>
         </>
     )
 }

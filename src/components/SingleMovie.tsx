@@ -4,12 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {addToWatchlist, removeFromWatchlist} from "@/redux/watchlistSlice.ts";
 import {isOnWatchlist} from "@/redux/watchlistSelectors.ts";
 import {RootState} from "../redux/store";
+import {parseDateYear} from "@/utils/utils.ts";
 
 interface MovieProps {
-    movie: Movie
+    movie: Movie,
+    onClick: () => void;
 }
 
-const SingleMovie = ({ movie }: MovieProps) => {
+const SingleMovie = ({ movie, onClick }: MovieProps) => {
     const { toggleFavorites, isFavorite } = useFavorites();
     const favorite = isFavorite(movie.id);
 
@@ -26,7 +28,7 @@ const SingleMovie = ({ movie }: MovieProps) => {
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}?api_key=fe6f91141dc11330e2584f6222d8d12a`}
                 alt={movie.title}
                 className="rounded" />
-            <h2 className="text-lg font-semibold mt-2">{movie.title}</h2>
+            <h2 className="text-lg font-semibold mt-2">{movie.title} ({parseDateYear(movie.release_date)})</h2>
             <Button
                 variant={ favorite ? "secondary" : "destructive"}
                 onClick={ () => toggleFavorites(movie.id) }>
@@ -38,7 +40,7 @@ const SingleMovie = ({ movie }: MovieProps) => {
                 { onWatchlist ? "Remove from Watchlist" : "Add to Watchlist" }
             </Button>
             <p>{movie.vote_average}</p>
-            <p className="text-sm text-gray-600">{movie.overview.slice(0, 100)}...</p>
+            <p className="text-sm text-gray-600" onClick={(onClick)}>{movie.overview.slice(0, 100)}...</p>
         </div>
     )
 }
