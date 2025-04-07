@@ -3,6 +3,8 @@ import {useEffect, useMemo, useState} from "react";
 import CheckboxComponent from "@/components/CheckboxComponent.tsx";
 import Modal from "@/components/Modal.tsx";
 import Pagination from "@/components/Pagination.tsx";
+import DatePickerFilter from "@/components/DatePickerFilter.tsx";
+import {parseDate} from "@/utils/utils.ts";
 
 interface MovieListProps {
     movies: Movie[]
@@ -14,6 +16,8 @@ const MoviesList = ({movies = []}: MovieListProps) => {
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
 
     const ratings = [4, 5, 6, 7]
     const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
@@ -33,8 +37,13 @@ const MoviesList = ({movies = []}: MovieListProps) => {
             )
         }
 
+        if(startDate && endDate) {
+            result = result.filter(movie =>
+                parseDate(movie.release_date) >= startDate && parseDate(movie.release_date) <= endDate);
+        }
+
         return result;
-    }, [movies, search, selectedRatings]);
+    }, [movies, search, selectedRatings, startDate, endDate]);
 
     const indexOfLastMovie = currentPage * MOVIES_PER_PAGE;
     const indexOfFirstMovie = indexOfLastMovie - MOVIES_PER_PAGE;
@@ -60,6 +69,13 @@ const MoviesList = ({movies = []}: MovieListProps) => {
 
             <p className="mb-4 p-2 border rounded w-full">Pick rating:</p>
             <CheckboxComponent values={ratings} onChange={handleRatingChange}/>
+
+            <DatePickerFilter
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+            ></DatePickerFilter>
 
             <div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
