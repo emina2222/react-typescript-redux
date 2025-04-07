@@ -2,6 +2,7 @@ import SingleMovie from "@/components/SingleMovie.tsx";
 import {useEffect, useMemo, useState} from "react";
 import CheckboxComponent from "@/components/CheckboxComponent.tsx";
 import Modal from "@/components/Modal.tsx";
+import Pagination from "@/components/Pagination.tsx";
 
 interface MovieListProps {
     movies: Movie[]
@@ -38,8 +39,6 @@ const MoviesList = ({movies = []}: MovieListProps) => {
     const indexOfLastMovie = currentPage * MOVIES_PER_PAGE;
     const indexOfFirstMovie = indexOfLastMovie - MOVIES_PER_PAGE;
 
-    const totalPages = Math.ceil(filteredMovies.length / MOVIES_PER_PAGE);
-
     const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
 
     const handleRatingChange = (ratings: number[]) => {
@@ -75,28 +74,14 @@ const MoviesList = ({movies = []}: MovieListProps) => {
                     )}
             </div>
 
-            {filteredMovies.length > 0 ?
-            <div className="flex justify-center items-center gap-4 mt-6">
-                <button onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                        disabled={currentPage === 1}
-                        className={`px-4 py-2 rounded-lg shadow-md text-white transition
-                        ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
-                >
-                    Previous
-                </button>
-                <span className="text-lg font-medium">
-                    Page <span className="text-blue-600">{currentPage}</span> of {totalPages}
-                </span>
-                <button
-                    onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className={`px-4 py-2 rounded-lg shadow-md text-white transition
-                    ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
-                >
-                    Next
-                </button>
-            </div>
-            : ""}
+            {filteredMovies.length > 0 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalItems={filteredMovies.length}
+                    itemsPerPage={MOVIES_PER_PAGE}
+                    onPageChange={setCurrentPage}
+                />
+            )}
 
             <Modal isOpen={!!selectedMovie} onClose={() => setSelectedMovie(null)}>
                 {selectedMovie &&
