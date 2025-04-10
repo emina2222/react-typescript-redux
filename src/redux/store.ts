@@ -1,6 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
 import moviesReducer from "@/redux/moviesSlice.tsx";
 import watchlistReducer from "@/redux/watchlistSlice";
+import themeReducer from "@/redux/themeSlice";
 import {loadState, saveState} from "@/redux/localStorage.ts";
 import isEqual from 'lodash/isEqual';
 
@@ -11,7 +12,8 @@ const preloadedState = {
 const store = configureStore({
   reducer: {
     movies: moviesReducer,
-    watchlist: watchlistReducer
+    watchlist: watchlistReducer,
+    theme: themeReducer
   },
   preloadedState
 });
