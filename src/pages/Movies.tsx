@@ -1,11 +1,11 @@
 import MovieList from "@/components/MovieList.tsx";
 import {useMovies} from "@/context/MoviesContext.tsx";
-import ShimmerCard from "@/components/ShimmerCard.tsx";
-import {useEffect, useState} from "react";
 
 const Movies = () => {
-    const { movies, isLoading } = useMovies()
-    const [delayedLoad, setDelayedLoad] = useState(true)
+    //const { movies, isLoading } = useMovies()
+    const { movies } = useMovies()
+
+    /*const [delayedLoad, setDelayedLoad] = useState(true)
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
@@ -20,12 +20,12 @@ const Movies = () => {
         }
 
         return () => clearTimeout(timeout)
-    }, [isLoading])
+    }, [isLoading])*/
 
     return (
-        delayedLoad ?
-            Array.from({ length: 6 }).map((_, index) => <ShimmerCard key={index} />)
-            : <MovieList movies={movies} />
+        //delayedLoad ?
+        //    Array.from({ length: 6 }).map((_, index) => <ShimmerCard key={index} />):
+        <MovieList movies={movies} />
     )
 }
 
